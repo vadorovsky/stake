@@ -96,9 +96,12 @@ pub trait StakeHistoryGetEntry {
 
 impl StakeHistoryGetEntry for StakeHistory {
     fn get_entry(&self, epoch: Epoch) -> Option<StakeHistoryEntry> {
-        self.binary_search_by(|probe| epoch.cmp(&probe.0))
+        let res = self
+            .binary_search_by(|probe| epoch.cmp(&probe.0))
             .ok()
-            .map(|index| self[index].1.clone())
+            .map(|index| self[index].1.clone());
+        println!("get_entry: epoch: {epoch}, result: {res:?}");
+        res
     }
 }
 
